@@ -431,7 +431,7 @@ thus allowing for more complex networks, such as mesh networks, using multiple h
 implemented at higher level, thus not discussed in this standard.
 Suited for sensor networks, enabling smart agriculture, industrial control 
 and monitoring and asset and inventory traking.
-\begin{figure}[!t]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=1\linewidth]{topologies}
     \caption{Star and peer-to-peer topologies}
@@ -452,15 +452,53 @@ The architecture is composed of three layers:
 
 Only PHY and MAC are defined in the standard, the higher layers, such as network,
 that involves its configuration, message routing and manipulation are left to the implementer.
-as well as the application layer.
+as well as the application layer.\\
 
-\subsubsection{Physical Layer}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=.5\linewidth]{layers}
+  \caption{IEEE 802.15.4-2024 architecture}
+  \label{fig:layers}
+\end{figure}
+
+\subsubsection{Physical Layer (PHY)}
 The PHY layer has its main focus on the activation and deactivation of the radio transceiver,
 energy detection, link quality indication, channel selection, clear channel assessment,
 ranging and data transmission and reception.
 In the specific case of High Rate Pulse repetition frequency UWB, it also serves the purpose 
 of precision ranging.
 
+\subsubsection{Medium Access Control (MAC)}
+The MAC overlay provides 2 services:
+\begin{itemize}
+    \item Data service
+    \item Management service
+\end{itemize}
+The data service is responsible for the MAC protocol data units transmission and reception,
+whilst the management service is responsible for the interfacing with the MAC sublayer 
+management entity service access point (MLME-SAP fig.\ref{fig:layers}).
+In particular the MAC overlay provides the possibility to manage beacons, channel access,
+association and disassociation, acknowledged frame delivery, guaranteed time slots management
+and frame validation. In addition can provide security features (TODO: UWB?).
+
+\subsection{Functional overview}
+\subsubsection{Scheduled access}
+Access is managed by different implementations of the superframe structure.\\
+Beacon superframe, defined and sent by the coiordinator, dependant on beacons.
+Can have an active and inactive portion, during the latter the coordinator is able
+to enter low-power mode (sleep), thus saving energy.
+Beacon transmission is executed at the beginning of each superframe by the coordinator,
+in order to synchronize and identify the devices of the PAN. It can be avoided by the
+coordinator bypassing the beacon transmission.\\
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\linewidth]{superframe}
+    \caption{Beacon superframe}
+    \label{fig:superframe}
+\end{figure}
+
+Deterministic and synchronous multichannel extension (DSME) superframe, 
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
