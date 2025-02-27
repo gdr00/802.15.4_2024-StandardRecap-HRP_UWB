@@ -296,7 +296,7 @@
 % systems. The latest version and documentation can be obtained at:
 % http://www.ctan.org/pkg/url
 % Basically, \url{my_url_here}.
-
+\usepackage{hyperref}
 
 
 
@@ -489,16 +489,58 @@ Can have an active and inactive portion, during the latter the coordinator is ab
 to enter low-power mode (sleep), thus saving energy.
 Beacon transmission is executed at the beginning of each superframe by the coordinator,
 in order to synchronize and identify the devices of the PAN. It can be avoided by the
-coordinator bypassing the beacon transmission.\\
+coordinator bypassing the beacon transmission.
+The Superframe Duration $\le$ Beacon Interval, is divided in two parts:
+\begin{itemize}
+    \item Contention Access Period (CAP)
+    \item Contention Free Period (CFP)
+\end{itemize}
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=1\linewidth]{superframe}
-    \caption{Beacon superframe}
+    \caption{Beacon superframe with Guaranteed Time Slots (GTS) in the CFP}
     \label{fig:superframe}
 \end{figure}
 
-Deterministic and synchronous multichannel extension (DSME) superframe, 
+Deterministic and synchronous multichannel extension (DSME) multi-superframe, as in beacon, 
+starts with the PAN coordinator sending an Enhanced Beacon frame, containing
+DSME PAN Descriptor Information Element (IE). The multi-superframe is divided in
+cycles of repeated superframes \ref{fig:multi-superframe}, composed as usual, 
+of enanched beacon frame, CAP and CFP.\\
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\linewidth]{DSME}
+    \caption{DSME multi-superframe}
+    \label{fig:multi-superframe}
+\end{figure}
+
+Time Slotted Channel Hopping (TSCH) sees the substitution of the superframe with a slotframe,
+also containing guaranteed or CSMA-CA periods. The difference is the shared notion of time
+between partecipants, thus allowing for automatic repetition of the slotframe, without 
+involving beacon transmission. It can also communicate the device's assigned timeslot(s) in
+the slotframe by beacon, but tipically is handled at higher layers.
+Since all devices are synchronized and share channel information, they can hop over channels
+decreasing interference and multipath fading, doing so in slotted channels to avoid collisions,
+avoiding retransmissions, usefull in industrial environments.\\
+
+TWVS multichannel cluster tree PAN (TMCTP).
+A cluster tree network is a mesh of clusters, each with a coordinator,
+that can communicate with other clusters, forming a tree. The easiest is a single cluster,
+with a coordinator and end devices, but can be extended to multiple clusters
+by the first PAN coordinator, that instructs a device to become a coordinator 
+of a new cluster. This augment the coverage area, with the downside of augmenting the
+message latency.
+The TMCTP is a cluster tree network with a Master PAN coordinator(Super Pan Coordinator), that
+synchronizes other PAN coordinators over different channels, that in turn synchronize
+their clusters.
+Parent PAN coordinator(s) communicate with their PAN-coordinator child(s) in its own channel 
+CAP or CFP, whilst childs send beacons to their parent in a dedicated channel,
+Dedicated Beacon Slot (DBS) assigned by the coordinator in the Beacon Only Phase (BOP).
+So the TMCTP has an enhanced superframe structure, with a BOP, a CAP and a CFP.\\
+
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
