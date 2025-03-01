@@ -484,7 +484,7 @@ and frame validation. In addition can provide security features (TODO: UWB?).
 \subsection{Functional overview}
 \subsubsection{Scheduled access}
 Access is managed by different implementations of the superframe structure.\\
-Beacon superframe, defined and sent by the coiordinator, dependant on beacons.
+\textbf{Beacon superframe}, defined and sent by the coiordinator, dependant on beacons.
 Can have an active and inactive portion, during the latter the coordinator is able
 to enter low-power mode (sleep), thus saving energy.
 Beacon transmission is executed at the beginning of each superframe by the coordinator,
@@ -503,8 +503,8 @@ The Superframe Duration $\le$ Beacon Interval, is divided in two parts:
     \label{fig:superframe}
 \end{figure}
 
-Deterministic and synchronous multichannel extension (DSME) multi-superframe, as in beacon, 
-starts with the PAN coordinator sending an Enhanced Beacon frame, containing
+\textbf{Deterministic and synchronous multichannel extension} (DSME) multi-superframe, as 
+in beacon, starts with the PAN coordinator sending an Enhanced Beacon frame, containing
 DSME PAN Descriptor Information Element (IE). The multi-superframe is divided in
 cycles of repeated superframes \ref{fig:multi-superframe}, composed as usual, 
 of enanched beacon frame, CAP and CFP.\\
@@ -516,16 +516,16 @@ of enanched beacon frame, CAP and CFP.\\
     \label{fig:multi-superframe}
 \end{figure}
 
-Time Slotted Channel Hopping (TSCH) sees the substitution of the superframe with a slotframe,
-also containing guaranteed or CSMA-CA periods. The difference is the shared notion of time
-between partecipants, thus allowing for automatic repetition of the slotframe, without 
+\textbf{Time Slotted Channel Hopping} (TSCH) sees the substitution of the superframe with a 
+slotframe, also containing guaranteed or CSMA-CA periods. The difference is the shared notion 
+of time between partecipants, thus allowing for automatic repetition of the slotframe, without 
 involving beacon transmission. It can also communicate the device's assigned timeslot(s) in
 the slotframe by beacon, but tipically is handled at higher layers.
 Since all devices are synchronized and share channel information, they can hop over channels
 decreasing interference and multipath fading, doing so in slotted channels to avoid collisions,
 avoiding retransmissions, usefull in industrial environments.\\
 
-TWVS multichannel cluster tree PAN (TMCTP).
+\textbf{TWVS multichannel cluster tree PAN} (TMCTP).
 A cluster tree network is a mesh of clusters, each with a coordinator,
 that can communicate with other clusters, forming a tree. The easiest is a single cluster,
 with a coordinator and end devices, but can be extended to multiple clusters
@@ -545,7 +545,7 @@ The transfer models of the standard are:
 \begin{itemize}
     \item Transfer to a Coordinator from a device.
     \item Indirect transfer from a coordinator in which the device recives the data.
-    \item Transfer between two peer devices.
+    \item Transfer between two peer devices. (TODO: UWB?)
 \end{itemize}
 
 On a correctly recived frame, if requested, the receiver sends an acknowledgment frame that 
@@ -556,12 +556,13 @@ can be of 3 types:
     \item Fragment acknowledgment
 \end{itemize}
 
-Data transfer to a coordinator is managed in two ways depending on beacon enabled or not.
-If synchronization beacons are enabled, the device listens for the beacon, when found it
-sinchronizes to the PAN, and sends the data frame to the coordinator at an appropriate time.\\
-If not enabled it transmits directly to the coordinator.\\
+\textbf{Data transfer to a coordinator} is managed in two ways depending on beacon enabled 
+or not. If synchronization \emph{beacons are enabled}, the device listens for the beacon, when found 
+it sinchronizes to the PAN, and sends the data frame to the coordinator at an appropriate 
+time.\\
+If \emph{not enabled} it transmits directly to the coordinator.\\
 
-Indirect data transfer using the superframe structure, the coordinator that has data for
+\textbf{Indirect data transfer} using the superframe structure, the coordinator that has data for
 a device, indicates in the beacon that a data message is pending. Since devices are
 synchronized through the beacon, they can listen for pending messages, if present, they
 send a Data Request command to the coordinator, that in turn sends the data frame and when
@@ -571,9 +572,10 @@ the data and sends it to the device up on request by the latter. Else the coordi
 has no data, either indicates it on the returned ACK if requested by the device that sent the
 Data Request, or in a Data Frame with zero payload.\\ 
 
-Data transfer between two peer devices is managed either by a device that constantly recives
-or sichronizes with the sending device. In the first case the device attempts to send data
-when channel access is gained, in the second case other measures are taken to achieve sync.\\
+Data transfer \textbf{between two peer} devices is managed either by a device that constantly 
+recives or sichronizes with the sending device. In the first case the device attempts to 
+send data when channel access is gained, in the second case other measures are taken to 
+achieve sync.\\
 
 \subsubsection{Frame Structure}
 
