@@ -540,6 +540,43 @@ CAP or CFP, whilst childs send beacons to their parent in a dedicated channel,
 Dedicated Beacon Slot (DBS) assigned by the coordinator in the Beacon Only Phase (BOP).
 So the TMCTP has an enhanced superframe structure, with a BOP, a CAP and a CFP.\\
 
+\subsubsection{Data Transfer Model}
+The transfer models of the standard are:
+\begin{itemize}
+    \item Transfer to a Coordinator from a device.
+    \item Indirect transfer from a coordinator in which the device recives the data.
+    \item Transfer between two peer devices.
+\end{itemize}
+
+On a correctly recived frame, if requested, the receiver sends an acknowledgment frame that 
+can be of 3 types:
+\begin{itemize}
+    \item Immediate acknowledgment
+    \item Enanched acknowledged
+    \item Fragment acknowledgment
+\end{itemize}
+
+Data transfer to a coordinator is managed in two ways depending on beacon enabled or not.
+If synchronization beacons are enabled, the device listens for the beacon, when found it
+sinchronizes to the PAN, and sends the data frame to the coordinator at an appropriate time.\\
+If not enabled it transmits directly to the coordinator.\\
+
+Indirect data transfer using the superframe structure, the coordinator that has data for
+a device, indicates in the beacon that a data message is pending. Since devices are
+synchronized through the beacon, they can listen for pending messages, if present, they
+send a Data Request command to the coordinator, that in turn sends the data frame and when
+succesfuly completed, removes the message from the pending list in the beacon.\\
+If not using the superframe structure, and a Data Frame is pending, the coordinator stores 
+the data and sends it to the device up on request by the latter. Else the coordinator that 
+has no data, either indicates it on the returned ACK if requested by the device that sent the
+Data Request, or in a Data Frame with zero payload.\\ 
+
+Data transfer between two peer devices is managed either by a device that constantly recives
+or sichronizes with the sending device. In the first case the device attempts to send data
+when channel access is gained, in the second case other measures are taken to achieve sync.\\
+
+\subsubsection{Frame Structure}
+
 
 
 % An example of a floating figure using the graphicx package.
