@@ -463,8 +463,8 @@ as well as the application layer.\\
 
 \subsubsection{Physical Layer (PHY)}
 The PHY layer has its main focus on the activation and deactivation of the radio transceiver,
-energy detection, link quality indication, channel selection, clear channel assessment,
-ranging and data transmission and reception.
+energy detection, link quality indication, channel freq. selection, clear channel assessment,
+precision ranging (UWB) and data transmission and reception.
 In the specific case of High Rate Pulse repetition frequency UWB, it also serves the purpose 
 of precision ranging.
 
@@ -611,10 +611,80 @@ The standard defines the following access methods:
           collisions (backoff exponent increased on every collision).
     \item CSMA-CA with Priority Channel Access (PCA), used in presence of MAC Service Data 
           Units containing CriticalEventMessage parameter flag set to true
-    \item LECIM (Low Energy Critical Infrastructure Monitoring) ALOHA with PCA, used in 
-          critical infrastructure monitoring, where the coordinator assigns a channel to a device
-          for a certain time.
+    \item LECIM (Low Energy Critical Infrastructure Monitoring) ALOHA with PCA.
 \end{itemize}
+
+\textbf{Frame acknowledgment} is optionally sent if requested, to confirm reception and
+validation of a frame. The reciving device can add content as enhanced acknowledgment frame
+encapsulated as information elements, then if the originator does not understand the IE 
+content of the Enh-Ack, is ignored but considering the transmission succesful.\\
+
+\textbf{Frak} is used in a fragment sequence to determine which fragments have been recived
+and which are missing explicitating the status of one or more fragments.\\
+
+\begin{figure} [!h]
+  \centering
+  \includegraphics[width=.7\linewidth]{FRAK}
+  \caption{Frak format}
+  \label{fig:ack}
+\end{figure}
+
+
+\textbf{Data verification} is achieved in MAC service data units through a cyclic redundancy
+check (CRC). For fragment sequences, is implemented a fragment identity check sequence (FICS)
+included in each fragment, used also to determine along with the fragment number, which
+fragments are missing and which are recived.\\
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=.6\linewidth]{fragment-packet}
+  \caption{Fragment packet}
+  \label{fig:fragment}
+\end{figure}
+
+\subsubsection{Power Consumption}
+Mainly, devices that are battery powered will require duty-cycling, that is
+the device is active for a short period of time listening on the RF channel for incoming
+messages and then goes to sleep the majority of the time, thus saving energy.
+Sleep and listen periods are decided by the application designer, who finds a compromise
+between message latency and battery consumption. Devices can also continously listen.\\
+
+In URP UWB, the standard also provides a hybrid modulation that permits noncoherent 
+architectures in order to reduce power consumption and implementation complexity.\\
+
+\subsubsection{Security}
+The cost objectives of ad nature of hoc networks impose additional security constraints,
+but also result difficult to achieve. The problems are low cost devices, mostly with low
+computational power, available memory and battery power. Also there is the problem of
+the trusted computer base, or random number generation, that is difficult to achieve.
+Is futhermore not implied that there is a fixed infrastructure, thus implying that are possible
+communications between devices that have never communicated before.\\
+
+Since most of the security features are implementable at higher layers, is out of scope
+for the standard. (for further info IEEE 802.15.9).\\
+
+The mechanism used in this standard is based on symmetric key cryptography, and uses keys
+provided by the higher layer processes, that also provide establishment and maintenance of
+the latter, thus the MAC layer is not involved in the key management and assumes that the
+implementation is secure.\\
+
+The mechanism provides combinations for 3 security services:
+\begin{itemize}
+    \item Data confidentiality: assumes informations are not disclosed to unauthorized parties.
+    \item Data integrity: assures the data source, thus not altered during transmission.
+    \item Replay protection: assures that a duplicate is detected. (important for UWB on 
+          keyless devices).
+\end{itemize}
+
+The frame protection can be adapted on a per frame basis, varying the security level depending
+on the requirement of security over security overhead. Keys are either shared between 2 
+devices (link key) or between a group of devices (group key). This implies lower maintenance
+and storage costs, but also implies that if adevice in the group is compromised, the whole
+group is compromised.\\
+
+\section{General PHY requirements}
+\subsection{}
+
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
