@@ -523,7 +523,7 @@ involving beacon transmission. It can also communicate the device's assigned tim
 the slotframe by beacon, but tipically is handled at higher layers.
 Since all devices are synchronized and share channel information, they can hop over channels
 decreasing interference and multipath fading, doing so in slotted channels to avoid collisions,
-avoiding retransmissions, usefull in industrial environments.\\
+thus avoiding retransmissions, usefull in industrial environments.\\
 
 \textbf{TWVS multichannel cluster tree PAN} (TMCTP).
 A cluster tree network is a mesh of clusters, each with a coordinator,
@@ -578,9 +578,43 @@ send data when channel access is gained, in the second case other measures are t
 achieve sync.\\
 
 \subsubsection{Frame Structure}
+Thought to be reliable in noisy environments while keeping complexity low, the frames are
+passed from the MAC to the PHY layer as the PHY Service Data Unit (PSDU), that is then
+converted to the PHY Protocol Data Unit (PPDU) and transmitted. PPDU for HRP-UWB 
+on UWB chapter.\\
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{PPDU}
+  \caption{PHY Protocol Data Unit (PPDU)}
+  \label{fig:PPDU}
+\end{figure}
 
+\subsubsection{Information Elements}
+To transmit information between layers and devices, the standard uses Information Elements 
+(IEs), that consist of an ID and a length field, followed by the information itself. If the
+IE is not recognized, it is ignored, else it can be accepted or discarded.\\
 
+\subsubsection{Access Methods}
+The standard defines the following access methods:
+\begin{itemize}
+    \item Unslotted carrier sense multiple access with collision avoidance (CSMA-CA), 
+          used where is not used the superframe structure.
+    \item Slotted CSMA-CA, used in the superframe structure.
+    \item TSCH CCA (TSCH Clear Channel Assessment) in non shared slots where the MAC layer requests a CCA
+          to the PHY layer at a designated time in the timeslot,
+          that in turn returns the result.
+    \item TSCH CSMA-CA, in shared slots (multiple devices can transmit in that assigned 
+          timeslot 10.3.2.2-10.3.9.2 section of the standard). Collisions are detected by not
+          reciving an acknowledgment frame. In shared links if there is a collision, 
+          retransmission is implemented along with an exp. backoff mechanism to avoid further
+          collisions (backoff exponent increased on every collision).
+    \item CSMA-CA with Priority Channel Access (PCA), used in presence of MAC Service Data 
+          Units containing CriticalEventMessage parameter flag set to true
+    \item LECIM (Low Energy Critical Infrastructure Monitoring) ALOHA with PCA, used in 
+          critical infrastructure monitoring, where the coordinator assigns a channel to a device
+          for a certain time.
+\end{itemize}
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
