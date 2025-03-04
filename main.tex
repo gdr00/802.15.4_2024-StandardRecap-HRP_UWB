@@ -212,21 +212,17 @@
 % generate multiline equations as well as matrices, tables, etc., of high
 % quality.
 
-%linewidth tables
-\setlength{\arrayrulewidth}{0.3mm}
-%column width
-\setlength{\tabcolsep}{5pt}
-%cell padding
-\renewcommand{\arraystretch}{1.5}
+% *** Tabulars done well ***
+\usepackage{tabularray}
 
 
 
 
 % *** SUBFIGURE PACKAGES *** subcaption is newer and better
 \ifCLASSOPTIONcompsoc
-  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subcaption}
+  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \else
-  \usepackage[caption=false,font=footnotesize]{subcaption}
+  \usepackage[caption=false,font=footnotesize]{subfig}
 \fi
 % subfig.sty, written by Steven Douglas Cochran, is the modern replacement
 % for subfigure.sty, the latter of which is no longer maintained and is
@@ -695,23 +691,105 @@ group is compromised.\\
 \begin{table}[!h]
   \centering
   \label{tab:frequency-ranges}
-  \begin{tabular}{| c | c |}
-    \hline
+  \begin{tblr}{
+    colspec={c c}, 
+    vlines, 
+    hlines, 
+    vspan=even
+    }
     \textbf{Band designation} & \textbf{Frequency band MHz} \\
-    \hline
-    HRP UWB sub-gigahertz & 250-270 \\
-    \hline
+    
+    HRP UWB sub-gigahertz & 250-750 \\
     HRP UWB low band & 3244-4742 \\
-    \hline
     HRP UWB high band & 5944-10 234 \\
-    \hline
     LRP UWB & 5624.32-10 435.2 \\
-    \hline
-  \end{tabular}
+  \end{tblr}
   \caption{Frequency ranges for UWBs (in MHz)}
 \end{table}
 
 \subsection{Channel Assigment}
+
+\begin{table}[!h]
+  \centering
+  \label{tab:chnannel-assigments-HRP}
+  \begin{tblr}{
+    colspec={c c c}, 
+    vlines, 
+    hlines 
+    }
+    \textbf{Channel number} & \textbf{Center Frequency} & \textbf{HRP UWB band} \\
+    
+    0 & 499.2 & Sub-gigahertz \\
+    1 & 3494.4 & \SetCell[r=4]{} Low band\\
+    2 & 3993.6 & \\
+    3 & 4492.8 & \\
+    4 & 3993.6 & \\
+    5 & 6489.6 & \SetCell[r=11]{} High band \\
+    6 & 6988.8 &  \\
+    7 & 6489.6 &  \\
+    8 & 7488.0 &  \\
+    9 & 7987.2 &  \\
+    10 & 8486.4 & \\
+    11 & 7987.2 & \\
+    12 & 8985.6 & \\
+    13 & 9484.8 & \\
+    14 & 9984.0 & \\
+    15 & 9484.8 & \\
+  \end{tblr}
+  \caption{Channel assigments for HRP UWBs}
+\end{table}
+
+\begin{table}[!h]
+  \centering
+  \label{tab:chnannel-assigments-LRP}
+  \begin{tblr}{
+    colspec={c c},
+    vlines,
+    hlines
+  }
+    \textbf{Channel number} & \textbf{Center Frequency} \\
+
+    0 & 6489.6 \\
+    1 & 6988.8 \\
+    2 & 7987.2 \\
+    3 & 8486.4 \\
+    4 & 6681.6 \\
+    5 & 7334.4 \\
+    6 & 7987.2 \\
+    7 & 8640.0 \\
+    8 & 9292.8 \\
+    9 & 9945.6 \\
+  \end{tblr}
+  \caption{Channel assigments for LRP UWBs}
+\end{table}
+
+\subsection{Reciver Energy Detection (ED)}
+Is intended to be used as a part of a channel selection algorithm. The ED is an estimation 
+of the recived signal power within the channel bandwidth.
+
+\subsection{Clear Channel Assessment (CCA)}
+UWB should implement one of the following CCA methods (last 2 only for HRP UWB):
+\begin{itemize}
+    \item Mode 1: Energy above threshold, it reports the medium busy if the energy is above
+          the ED threshold.
+    \item Mode 2: Carrier sense only, it reports the medium busy if the signal detected is
+          complaint with the standard and same modulation used by the detecting device.
+    \item Mode 3:
+    \begin{itemize}
+      \item Mode 3a: Carrier sense with Energy above threshold (either required), it reports 
+            busy whether Mode 1 or Mode 2 reports busy.
+      \item Mode 3b: Carrier sense with Energy above threshold (both required), it reports 
+            busy if both Mode 1 and Mode 2 report busy.
+    \end{itemize}
+    \item Mode 4: ALOHA, CCA should always report an idle medium
+    \item Mode 5: Known as preamble sense, it reports busy if after listnening finds the 
+          synchronization header of a frame. After it should wait atleast for the frame to be
+          completely sent and acknowledged before reporting idle.
+    \item Mode 6: Preamble sense based on the packet with the multiplexed preamble.
+\end{itemize}
+
+\section{HRP UWB PHY}
+\subsection{General}
 
 
 % An example of a floating figure using the graphicx package.
