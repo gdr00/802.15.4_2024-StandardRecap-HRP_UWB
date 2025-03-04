@@ -212,14 +212,21 @@
 % generate multiline equations as well as matrices, tables, etc., of high
 % quality.
 
+%linewidth tables
+\setlength{\arrayrulewidth}{0.3mm}
+%column width
+\setlength{\tabcolsep}{5pt}
+%cell padding
+\renewcommand{\arraystretch}{1.5}
 
 
 
-% *** SUBFIGURE PACKAGES ***
+
+% *** SUBFIGURE PACKAGES *** subcaption is newer and better
 \ifCLASSOPTIONcompsoc
-  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subcaption}
 \else
-  \usepackage[caption=false,font=footnotesize]{subfig}
+  \usepackage[caption=false,font=footnotesize]{subcaption}
 \fi
 % subfig.sty, written by Steven Douglas Cochran, is the modern replacement
 % for subfigure.sty, the latter of which is no longer maintained and is
@@ -683,7 +690,29 @@ and storage costs, but also implies that if adevice in the group is compromised,
 group is compromised.\\
 
 \section{General PHY requirements}
-\subsection{}
+\subsection{Frequency ranges}
+
+\begin{table}[!h]
+  \centering
+  \label{tab:frequency-ranges}
+  \begin{tabular}{| c | c |}
+    \hline
+    \textbf{Band designation} & \textbf{Frequency band MHz} \\
+    \hline
+    HRP UWB sub-gigahertz & 250-270 \\
+    \hline
+    HRP UWB low band & 3244-4742 \\
+    \hline
+    HRP UWB high band & 5944-10 234 \\
+    \hline
+    LRP UWB & 5624.32-10 435.2 \\
+    \hline
+  \end{tabular}
+  \caption{Frequency ranges for UWBs (in MHz)}
+\end{table}
+
+\subsection{Channel Assigment}
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
