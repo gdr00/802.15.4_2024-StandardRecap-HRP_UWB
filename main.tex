@@ -811,7 +811,40 @@ support:
   \label{fig:STS}
 \end{figure}
 
+\subsection{PPDU encoding}
+There are different steps in the PPDU encoding, precisely:
+\begin{enumerate}
+  \item Reed-Solomon encoding on PSDU.
+  \item Creation of the PHY header (PHR), including single error correct, double error detect
+        (SEC-DED) code, anteponed to the PSDU.
+  \item More convolutional encoding is done, so adds parity bits on the datastream, if the 
+        stream is 27Mb/s the encoding is bypassed in favor of 2 encoded bits per symbol of 
+        Burst Position Modulation-Binary Phase Shifting Keying (BPM-BPSK). The encoder is zeroed by 
+        adding 2 `0' bits at the end of the PPDUs or 6 to both PHR and PSDU the latter for 
+        a K=7 conv. encoder only in HRP-ERDEV devices.
+  \item Modulation of PHR and PSDU according to different rates, 110kb/s, 850kb/s, 6.8Mb/s, 
+        dependant on the standard (page 642).
+  \item Production of the synchronization header (SHR) from SYNC field and Start of Frame
+        Delimiter (SFD).
+  \item For HRP-ERDEV devices, the Scrambled Time Stamp is added to the PPDU.
+\end{enumerate}
 
+\subsection{Symbol Structure}
+Using BPM-BPSK, the symbol structure is composed of 2 bits per symbol, with the first bit
+determining the position (0 or 1) and the second the phase (-1 or +1). In each symbol
+interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip per 
+burst, each of $N_{c}$ possible values of duration $T_{c}$. Furthermore, $T_{bpm}=T_{dsym}/2$, 
+so enables binary position modulation and $T_{dsym}=N_{c}T_{c}$.\\
+To mitigate multipath interference between symbols, the standard limits the burst transmission 
+to the first half of each $T_{bpm}$, so the first $N_{hop}=N_{burst}/4$ where 
+$N_{burst}=T_{dsym}/T_{burst}$ is the number of brust durations in a symbol.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{symbol-structure}
+  \caption{Symbol structure}
+  \label{fig:symbol-structure}
+\end{figure}
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
