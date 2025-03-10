@@ -814,7 +814,7 @@ support:
 \subsection{PPDU encoding}
 There are different steps in the PPDU encoding, precisely:
 \begin{enumerate}
-  \item Reed-Solomon encoding on PSDU (payload).
+  \item Reed-Solomon encoding on PSDU.
   \item Creation of the PHY header (PHR), including single error correct, double error detect
         (SEC-DED) code, anteponed to the PSDU.
   \item More convolutional encoding is done, so adds parity bits on the datastream, if the 
@@ -870,6 +870,26 @@ Different datarates are achieved by changing the number of chips within a burst
 Symbol rate is the inverse of the symbol period, so $1/T_{dsym}$, and the bit rate is also
 considering the Forward Error Correction (FEC) overhead, so 
 $1/T_{dsym}\times(2 \times Overall FEC rate)$.\\
+
+\subsection{Preamble timing parameters}
+Different parameters are used fort the SHR, composed of the SYNC field and the SFD, and the
+PSDU. Indeed the mean PRF for the preamble is slightly higher since in the SHR are not used
+power of 2 lenght codes, nor number of chips.\\
+The SHR has 4 possible durations, denoted by different lenghts of the SYNC field, that
+repeats the preamble symbol 16, 64, 1024 or 4096 times. This repetition yields different PPDU
+time durations.
+
+\subsection{SHR field}
+There are 4 preamble lenghts as previously stated, called, in order, short, default,
+medium, long, the one to used is specified in a parameter in MCPS-DATA.request primitive.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{SHR}
+  \caption{SHR field}
+  \label{fig:SHR}
+\end{figure}
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
