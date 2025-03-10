@@ -804,7 +804,7 @@ support:
   \item Operation at higher PRF than BPRF, called HPRF.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[!h]
   \centering
   \includegraphics[width=\linewidth]{STS-pak}
   \caption{STS position and Pysical Protocol Data Unit (PPDU) format}
@@ -814,7 +814,7 @@ support:
 \subsection{PPDU encoding}
 There are different steps in the PPDU encoding, precisely:
 \begin{enumerate}
-  \item Reed-Solomon encoding on PSDU.
+  \item Reed-Solomon encoding on PSDU (payload).
   \item Creation of the PHY header (PHR), including single error correct, double error detect
         (SEC-DED) code, anteponed to the PSDU.
   \item More convolutional encoding is done, so adds parity bits on the datastream, if the 
@@ -829,15 +829,23 @@ There are different steps in the PPDU encoding, precisely:
   \item For HRP-ERDEV devices, the Scrambled Time Stamp is added to the PPDU.
 \end{enumerate}
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{encoding}
+  \caption{PPDU encoding}
+  \label{fig:PPDU-encoding}
+\end{figure}
+
 \subsection{Symbol Structure}
 Using BPM-BPSK, the symbol structure is composed of 2 bits per symbol, with the first bit
 determining the position (0 or 1) and the second the phase (-1 or +1). In each symbol
 interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip per 
 burst, each of $N_{c}$ possible values of duration $T_{c}$. Furthermore, $T_{bpm}=T_{dsym}/2$, 
-so enables binary position modulation and $T_{dsym}=N_{c}T_{c}$.\\
+so enables binary position modulation and $T_{dsym}=N_{c} \times T_{c}$.\\
 To mitigate multipath interference between symbols, the standard limits the burst transmission 
 to the first half of each $T_{bpm}$, so the first $N_{hop}=N_{burst}/4$ where 
-$N_{burst}=T_{dsym}/T_{burst}$ is the number of brust durations in a symbol.
+$N_{burst}=T_{dsym}/T_{burst}$ is the number of brust durations in a symbol and 
+$T_{burst}=N_{cpb} \times T_{c}$, also $T_{dsym}=T_{burst} \times N_{burst}$.\\
 
 \begin{figure}[!h]
   \centering
@@ -845,6 +853,23 @@ $N_{burst}=T_{dsym}/T_{burst}$ is the number of brust durations in a symbol.
   \caption{Symbol structure}
   \label{fig:symbol-structure}
 \end{figure}
+
+\subsection{PSDU timing parameters}
+Within each HRP UWB channel {0:15} the peak Pulse Repetition Frequency (PRF) is 499.2MHz,
+where the mean PRF is the number of pulses per symbol period divided by the lenght of the
+symbol period $Mean PRF = N_{cpb}/T_{dsym}$.
+As previously stated, the device must support the lenght 31 codes for each channel it
+implements, and both 15.6 MHz and 3.90 MHz mean PRFs for PSDU, optionally if using the
+lenght 127 codes, it must support also 62.4 MHz mean PRF frequency.\\
+There are larger bandwith channels {4, 7, 11, 15} that
+have bandwidths $>500MHz$, thus premitting higher power
+transmissions (limited to power spectral density). Achieving higher range, ranging accuracy 
+and enhanced multipath resistance.\\
+Different datarates are achieved by changing the number of chips within a burst 
+($T_{c}\approx2ns$), whith the total number of burst positions constant.\\
+Symbol rate is the inverse of the symbol period, so $1/T_{dsym}$, and the bit rate is also
+considering the Forward Error Correction (FEC) overhead, so 
+$1/T_{dsym}\times(2 \times Overall FEC rate)$.\\
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
