@@ -158,7 +158,7 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage{amsmath}
+\usepackage{amsmath}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics.
 %
@@ -838,7 +838,7 @@ There are different steps in the PPDU encoding, precisely:
 
 \subsection{Symbol Structure}
 Using BPM-BPSK, the symbol structure is composed of 2 bits per symbol, with the first bit
-determining the position (0 or 1) and the second the phase (-1 or +1). In each symbol
+determining the position (0 or 1) and the second the phase (-1 or +1). In each data symbol
 interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip per 
 burst, each of $N_{c}$ possible values of duration $T_{c}$. Furthermore, $T_{bpm}=T_{dsym}/2$, 
 so enables binary position modulation and $T_{dsym}=N_{c} \times T_{c}$.\\
@@ -889,6 +889,98 @@ medium, long, the one to used is specified in a parameter in MCPS-DATA.request p
   \caption{SHR field}
   \label{fig:SHR}
 \end{figure}
+
+\subsubsection{SYNC field}
+Each PAN in a HRP UWB channel is identified by a preamble code, the SYNC field is composed 
+by symbols defined by a preamble code. Each \emph{preamble code} is a \emph{sequence of code 
+symbols} from a ternary alphabet (-1,0,1), and can be of lenght 31 or 127 (91 for ERDEV). 
+Each channel has a fixed amount of possible preamble codes. As previously stated data is sent 
+in bursts, each of $N_{cpb}$ contiguos chips, each of $N_{c}$ possible values (in this case 
+three, -1,0,1) of duration $T_{c}$. The SYNC field is composed by $N_{sync}$ repetitions of 
+the symbol $\mathbf{S}_i$, denoted by the code itself getting spread by a $\delta_{L}$ function,
+becoming then the symbol $\mathbf{S}_i$. So the code with index i ($\mathbf{C}_i$ table 16-7 
+16-8 16-9 of the std) spread over function $\delta_{L}$ (L = spreading factor, table 16-5 
+16-10). SYNC field scales with the number of Preamble Symbol Repetitions (PSM), that is the
+$N_{sync}$ repetitions of the symbol $\mathbf{S}_i$ in the SYNC field.
+
+\[
+\mathbf{S}_i = \mathbf{C}_i \otimes \delta_L(n)
+\]
+
+\[
+\delta_L(n) =
+\begin{cases} 
+1 & n = 0 \\
+0 & n = 1, 2, \dots, L-1
+\end{cases}
+\]
+
+$\otimes$ is Kronker product, note that the $L-1$ zeroes are interponed between each ternary
+element of $\mathbf{C}_i$ ($\mathbf{C}_i(x); x=0:30\ or\ 0:126$)
+
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{PSYM}
+  \caption{Preamble Symbol Period, part of the SYNC field}
+  \label{fig:PSYM}
+\end{figure}
+
+\subsubsection{SFD field}
+Start of frame delimiter can be of 2 types, the short for default and medium datarates, and
+the long for low datarates. 
+
+\subsection{PHR field}
+Formatted like in the figure below.
+
+\begin{table}[!h]
+  \centering
+  \label{tab:PHR}
+  \begin{tblr}{
+    colspec={|c|c|}, % Define column specifications with vertical lines
+    hline{1,Z},       % Adds horizontal lines at the first and last row
+  }
+    \textbf{Bits}  & \textbf{Field} \\
+    \hline
+    0-1   & Data Rate \\
+    2-8   & Frame Length \\
+    9      & Ranging \\
+    10     & Reserved \\
+    11-12 & Preamble Duration \\
+    13-18 & SECDED \\
+  \end{tblr}
+\end{table}
+
+\emph{Datarate} indicates the datarate of the PHY payload field, specified in a particular attribute,
+depending on mean Pulse Repetition Frequency, 850kb/s is the only non optional to be supported.
+Bit setup seen in table (16-12 of the std), with regard to datarates with different mean PRFs.\\
+\emph{Frame lenght} is an unsigned integer indicating the number of octets in the PSDU.
+\emph{Ranging} is set to 1 if the frame is a ranging frame, 0 otherwise.\\
+\emph{Preamble duration} represents the lenght (as $N_{sync}$ number of symbol repetitions) 
+of the SYNC field in the SHR.
+
+\begin{table}[h]
+  \centering
+  \begin{tblr}{
+      colspec={c c},
+      vlines,
+      hlines
+  }
+      \textbf{Field value, b11 b12} & \textbf{SYNC length (symbols)} \\
+      \hline
+      00  & 16 \\
+      01  & 64 \\
+      10  & 1024 \\
+      11  & 4096 \\
+  \end{tblr}
+  \caption{SYNC length values based on Preamble duration field value}
+\end{table}
+
+The duration is used for ranging operations, in order to determine when the PHY layer got and
+started tracking the preamble. Also used by reciver to set its own preamble duration upon the
+value reviced when is sending a ranging Acknowledgment frame.\\
+\emph{SECDED} is a field that enables the detection of 2 errors and the correction of one. It
+depends on the previous PHR bits (0-12) and computed xoring different bits of the header.\\
 
 
 % An example of a floating figure using the graphicx package.
