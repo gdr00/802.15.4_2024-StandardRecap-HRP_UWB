@@ -1108,9 +1108,10 @@ of the physical frame).\\
 
 \subsubsection{Convolutional encoding}
 As stated previously, the encoder can have k of both 3 and 7 depending if HPRF is in use,
-if in use k=7 can be optionally employed over k=3. If k=7 is used, datarate is higher
-compared to Reed-Solomon encoding at 249.6 MHz PRF, the latter is disabled on the PSDU, moreover the encoder
-is run over the whole PHR (in halved datarate) and PSDU.\\
+if in use k=7 can be optionally employed over k=3. If k=7 is used, Reed-Solomon encoding
+is disabled on the PSDU, moreover the conv. encoder is run over the whole PHR (in halved datarate) 
+and PSDU. Datarate is higher using conv. encoder over Reed-Solomon encoding in HPRF devices, in
+both  124.8 MHz PRF and 249.6 MHz PRF.\\ 
 Convolutional encoding is not supported in noncoherent reciver so the only performance
 improvement possible is through Reed-Solomon decoding.\\
 
