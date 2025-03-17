@@ -322,7 +322,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Overview on UWB\\standard 802.15.4-2024}
+\title{Overview on HRP UWB\\standard 802.15.4-2024}
 
 
 % author names and affiliations
@@ -819,8 +819,8 @@ There are different steps in the PPDU encoding, precisely:
         (SEC-DED) code, anteponed to the PSDU.
   \item More convolutional encoding is done, so adds parity bits on the datastream, if the 
         stream is 27Mb/s the encoding is bypassed in favor of 2 encoded bits per symbol of 
-        Burst Position Modulation-Binary Phase Shifting Keying (BPM-BPSK). The encoder is zeroed by 
-        adding 2 `0' bits at the end of the PPDUs or 6 to both PHR and PSDU the latter for 
+        BPM-BPSK (Burst Position Modulation-Binary Phase Shifting Keying). The encoder is zeroed by 
+        adding 2 `0' bits at the end of the PPDUs (k=3) or 6 to both PHR and PSDU, the latter for 
         a K=7 conv. encoder only in HRP-ERDEV devices.
   \item Modulation of PHR and PSDU according to different rates, 110kb/s, 850kb/s, 6.8Mb/s, 
         dependant on the standard (page 642).
@@ -901,7 +901,7 @@ three, -1,0,1) of duration $T_{c}$. The SYNC field is composed by $N_{sync}$ rep
 the symbol $\mathbf{S}_i$, denoted by the code itself getting spread by a $\delta_{L}$ function,
 becoming then the symbol $\mathbf{S}_i$. So the code with index i ($\mathbf{C}_i$ table 16-7 
 16-8 16-9 of the std) spread over function $\delta_{L}$ (L = spreading factor, table 16-5 
-16-10). SYNC field scales with the number of Preamble Symbol Repetitions (PSM), that is the
+16-10). SYNC field scales with the number of Preamble Symbol Repetitions (PSR), that is the
 $N_{sync}$ repetitions of the symbol $\mathbf{S}_i$ in the SYNC field.
 
 \[
@@ -1033,7 +1033,7 @@ based on AES-128. Arranged in 1 to 4 active blocks separated by silent blocks (G
 \end{figure}
 
 The optimal PPDU position for the STS is at the end of the Payload, (packet configuration 2 Fig.
-\ref{fig:STS})
+\ref{fig:STS})\\
 
 \begin{figure}[!h]
   \centering
@@ -1042,8 +1042,8 @@ The optimal PPDU position for the STS is at the end of the Payload, (packet conf
   \label{fig:STS-enc}
 \end{figure}
 
-As in figure above, the STS seed is decided by the above layer through an attribute, as the
-counter, incremented each iteration of the DRBG, in order to always give a new V value.\\
+As in figure \ref{fig:STS-enc}, the STS seed is decided by the above layer through an attribute,
+as the counter, incremented each iteration of the DRBG, in order to always give a new V value.\\
 Synchronization of V and seed values is responsibility of the higher layers, though an
 RSSD IE can be used to align seed and counter to the reciver. This information element is
 composed of the first bits specifying the presence or not of certain fields, then there are
@@ -1082,15 +1082,37 @@ V1, V2, V3 coitain in order 32-63, 64-95, 96-127 bits of STS generation data, V 
 the counter value(0-31 bits of STS), STS Seed is the seed value, Application Code is used
 to transfer additional data from the higher layer, which is also responsible for the validation
 and programming of these fields. The P means that the field is present, so if bit 0 is 1, V3
-is present, if bit 1 is 1, V2 is present, and so on.\\
+is present, if bit 1 is 1, V2 is present, and so on.
 
 \subsubsection{Forming the STS}
-As described in \ref{SYNC}, the STS after the 128bit random number is generated, in which each 0 
-bit is a positive polarity pulse and each 1 bit is a negative polarity pulse, is spread 
-by the $\delta_{L}$ function with L=8 in BPRF and L=4 in HPRF.\\
-ad in Fig. \ref{fig:STS-structure}, the STS is composed of 1 to 4 active blocks, each of the
-same length.
+As described in \ref{SYNC}, the STS after the 128bit random number is generated, in which each 
+\textbf{0} bit is a \textbf{positive} polarity pulse and each \textbf{1} bit is a 
+\textbf{negative} polarity pulse, is spread by the $\delta_{L}$ function with L=8 in BPRF 
+and L=4 in HPRF.\\ As in Fig. \ref{fig:STS-structure}, the STS is composed of 1 to 4 active 
+blocks, each of the \emph{same length}.
 
+\subsection{Modulation}
+\subsubsection{FEC}
+The Forward Error Correction (FEC) in the HRP UWB PHY is concatenated code consisting of an
+outer shell of Reed-Solomon encoding and an inner half-rate convolutional encoding (first bit
+encoded and second not). As previously stated the inner convolutional encoding is not enabled
+at all datarates (table 16-4 of the std where viterbi rate is 1 conv. is disabled for the PSDU
+of the physical frame).\\
+
+\subsubsection{Reed-Solomon generator}
+\begin{align*}
+  g(x) &= \prod_{k=1}^{\circ} (x + \alpha^k) \\
+       &= x^8 + 55x^7 + 61x^6 + 37x^5 + 48x^4 \\
+       &\quad + 47x^3 + 20x^2 + 6x + 22
+  \end{align*}
+
+\subsubsection{Convolutional encoding}
+As stated previously, the encoder can have k of both 3 and 7 depending if HPRF is in use,
+if in use k=7 can be optionally employed over k=3. If k=7 is used, datarate is higher
+compared to Reed-Solomon encoding at 249.6 MHz PRF, the latter is disabled on the PSDU, moreover the encoder
+is run over the whole PHR (in halved datarate) and PSDU.\\
+Convolutional encoding is not supported in noncoherent reciver so the only performance
+improvement possible is through Reed-Solomon decoding.\\
 
 
 % An example of a floating figure using the graphicx package.
