@@ -91,7 +91,8 @@
 
 % *** CITATION PACKAGES ***
 %
-%\usepackage{cite}
+\usepackage{cite}
+\usepackage[numbers]{natbib}
 % cite.sty was written by Donald Arseneau
 % V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
 % \cite{} output to follow that of the IEEE. Loading the cite package will
@@ -385,9 +386,7 @@ Mat: 2158818
 % in the abstract
 \begin{abstract}
 The purpose of this survey is to understand and address these topics of the standard IEEE 802.15.4-2024,
-"IEEE Standard for Low-Rate wireless networks":
-Architecture, where we will s
-
+"IEEE Standard for Low-Rate wireless networks"
 \end{abstract}
 
 % no keywords
@@ -409,14 +408,14 @@ Architecture, where we will s
 
 \section{Introduction}
 % no \IEEEPARstart
-The standard covers many physical layers and one Medium Access Control layer (MAC) for 
+The standard\cite{10794632} covers many physical layers and one Medium Access Control layer (MAC) for 
 low rate wireless personal area networks (LR-WPAN).
 There are some special applications such as Smart Utility Network, 
 Rail Communications and Control, Radio Frequency Identification (RFID),
 Medical Body Area Networks. Among many others it covers the one we are interested in,
 the Ultra Wide Band (UWB) technology.
-UWB is a technology generally defined like others in the standard as a Wireless Personal Area Network 
-(WPAN). So we will give an quick overview of the standard and then focus on the UWB technology.
+UWB is a technology generally defined like others in the standard\cite{10794632} as a Wireless Personal Area Network 
+(WPAN). So we will give an quick overview of the standard\cite{10794632} and then focus on the UWB technology.
 
 %\hfill mds
 % 
@@ -431,7 +430,7 @@ and is usually wall powered, whilst end devices are battery powered.
 Suited for home automation, personal health care and games.\\
 The peer-to-peer topology is a network of devices that can communicate with each other,
 thus allowing for more complex networks, such as mesh networks, using multiple hops, 
-implemented at higher level, thus not discussed in this standard.
+implemented at higher level, thus not discussed in this standard\cite{10794632}.
 Suited for sensor networks, enabling smart agriculture, industrial control 
 and monitoring and asset and inventory traking.
 \begin{figure}[!h]
@@ -453,7 +452,7 @@ The architecture is composed of three layers:
     \item Higher layers
 \end{itemize}
 
-Only PHY and MAC are defined in the standard, the higher layers, such as network,
+Only PHY and MAC are defined in the standard\cite{10794632}, the higher layers, such as network,
 that involves its configuration, message routing and manipulation are left to the implementer.
 as well as the application layer.\\
 
@@ -544,7 +543,7 @@ Dedicated Beacon Slot (DBS) assigned by the coordinator in the Beacon Only Phase
 So the TMCTP has an enhanced superframe structure, with a BOP, a CAP and a CFP.\\
 
 \subsubsection{Data Transfer Model}
-The transfer models of the standard are:
+The transfer models of the standard\cite{10794632} are:
 \begin{itemize}
     \item Transfer to a Coordinator from a device.
     \item Indirect transfer from a coordinator in which the device recives the data.
@@ -594,12 +593,12 @@ on UWB chapter.\\
 \end{figure}
 
 \subsubsection{Information Elements}
-To transmit information between layers and devices, the standard uses Information Elements 
+To transmit information between layers and devices, the standard\cite{10794632} uses Information Elements 
 (IEs), that consist of an ID and a length field, followed by the information itself. If the
 IE is not recognized, it is ignored, else it can be accepted or discarded.\\
 
 \subsubsection{Access Methods}
-The standard defines the following access methods:
+The standard\cite{10794632} defines the following access methods:
 \begin{itemize}
     \item Unslotted carrier sense multiple access with collision avoidance (CSMA-CA), 
           used where is not used the superframe structure.
@@ -608,7 +607,7 @@ The standard defines the following access methods:
           to the PHY layer at a designated time in the timeslot,
           that in turn returns the result.
     \item TSCH CSMA-CA, in shared slots (multiple devices can transmit in that assigned 
-          timeslot 10.3.2.2-10.3.9.2 section of the standard). Collisions are detected by not
+          timeslot 10.3.2.2-10.3.9.2 section of the standard\cite{10794632}). Collisions are detected by not
           reciving an acknowledgment frame. In shared links if there is a collision, 
           retransmission is implemented along with an exp. backoff mechanism to avoid further
           collisions (backoff exponent increased on every collision).
@@ -652,7 +651,7 @@ messages and then goes to sleep the majority of the time, thus saving energy.
 Sleep and listen periods are decided by the application designer, who finds a compromise
 between message latency and battery consumption. Devices can also continously listen.\\
 
-In URP UWB, the standard also provides a hybrid modulation that permits noncoherent 
+In URP UWB, the standard\cite{10794632} also provides a hybrid modulation that permits noncoherent 
 architectures in order to reduce power consumption and implementation complexity.\\
 
 \subsubsection{Security}
@@ -664,9 +663,9 @@ Is futhermore not implied that there is a fixed infrastructure, thus implying th
 communications between devices that have never communicated before.\\
 
 Since most of the security features are implementable at higher layers, is out of scope
-for the standard. (for further info IEEE 802.15.9).\\
+for the standard\cite{10794632}. (for further info IEEE 802.15.9).\\
 
-The mechanism used in this standard is based on symmetric key cryptography, and uses keys
+The mechanism used in this standard\cite{10794632} is based on symmetric key cryptography, and uses keys
 provided by the higher layer processes, that also provide establishment and maintenance of
 the latter, thus the MAC layer is not involved in the key management and assumes that the
 implementation is secure.\\
@@ -773,7 +772,7 @@ UWB should implement one of the following CCA methods (last 2 only for HRP UWB):
     \item Mode 1: Energy above threshold, it reports the medium busy if the energy is above
           the ED threshold.
     \item Mode 2: Carrier sense only, it reports the medium busy if the signal detected is
-          complaint with the standard and same modulation used by the detecting device.
+          complaint with the standard\cite{10794632} and same modulation used by the detecting device.
     \item Mode 3:
     \begin{itemize}
       \item Mode 3a: Carrier sense with Energy above threshold (either required), it reports 
@@ -788,16 +787,23 @@ UWB should implement one of the following CCA methods (last 2 only for HRP UWB):
     \item Mode 6: Preamble sense based on the packet with the multiplexed preamble.
 \end{itemize}
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{Mutliplexed-preamble}
+  \caption{HRP UWB multiplexed preamble mode}
+  \label{fig:Multiplexed-preamble}
+\end{figure}
+
 \section{HRP UWB PHY}
 \subsection{General}
-To be compliant with the standard, the PHY layer must implement support for at least one
+To be compliant with the standard\cite{10794632}, the PHY layer must implement support for at least one
 between the channels 0, 3 and 9. Within each there is support for at least 2 complex channels
 that have unique lenght 31 preamble codes. So the device must support the lenght 31 codes for
 each channel it implements.\\
-More specifically, the standard defines 16 frequency bands, each with 2 complex channels,
+More specifically, the standard\cite{10794632} defines 16 frequency bands, each with 2 complex channels,
 if a band is choosen, the device must support both channels.\\
 
-To increment ranging accuracy, reduced on-air time and power consumption, the standard
+To increment ranging accuracy, reduced on-air time and power consumption, the standard\cite{10794632}
 also provides optional modes for example scrambled timestamp sequence (STS), these devices
 that use this additional modes are called HRP-ERDEV (Enhanced Ranging Devices) and must
 support:
@@ -825,7 +831,7 @@ There are different steps in the PPDU encoding, precisely:
         adding 2 `0' bits at the end of the PPDUs (k=3) or 6 to both PHR and PSDU, the latter for 
         a K=7 conv. encoder only in HRP-ERDEV devices.
   \item Modulation of PHR and PSDU according to different rates, 110kb/s, 850kb/s, 6.8Mb/s, 
-        dependant on the standard (page 642).
+        dependant on the standard\cite{10794632} (page 642).
   \item Production of the synchronization header (SHR) from SYNC field and Start of Frame
         Delimiter (SFD).
   \item For HRP-ERDEV devices, the Scrambled Time Stamp is added to the PPDU.
@@ -844,7 +850,7 @@ determining the position (0 or 1) and the second the phase (-1 or +1). In each d
 interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip per 
 burst, each of $N_{c}$ possible values of duration $T_{c}$. Furthermore, $T_{bpm}=T_{dsym}/2$, 
 so enables binary position modulation and $T_{dsym}=N_{c} \times T_{c}$.\\
-To mitigate multipath interference between symbols, the standard limits the burst transmission 
+To mitigate multipath interference between symbols, the standard\cite{10794632} limits the burst transmission 
 to the first half of each $T_{bpm}$, so the first $N_{hop}=N_{burst}/4$ where 
 $N_{burst}=T_{dsym}/T_{burst}$ is the number of brust durations in a symbol and 
 $T_{burst}=N_{cpb} \times T_{c}$, also $T_{dsym}=T_{burst} \times N_{burst}$.\\
@@ -947,8 +953,8 @@ Formatted like in the figure below.
     \hline
     0-1   & Data Rate \\
     2-8   & Frame Length \\
-    9      & Ranging \\
-    10     & Reserved \\
+    9     & Ranging \\
+    10    & Reserved \\
     11-12 & Preamble Duration \\
     13-18 & SECDED \\
   \end{tblr}
@@ -1215,8 +1221,8 @@ improvement possible is through Reed-Solomon decoding.\\
 
 
 
-\section{Conclusion}
-The conclusion goes here.
+%\section{Conclusion}
+
 
 
 
@@ -1225,11 +1231,7 @@ The conclusion goes here.
 
 
 % use section* for acknowledgment
-\section*{Acknowledgment}
-
-
-The authors would like to thank...
-
+%%\section*{Acknowledgment}
 
 
 
@@ -1256,15 +1258,16 @@ The authors would like to thank...
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
+%\begin{thebibliography}{1}
+%
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
-
-
+\bibliographystyle{IEEEtranN}
+\bibliography{references}
 
 
 % that's all folks
