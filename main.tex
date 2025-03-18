@@ -794,6 +794,8 @@ To be compliant with the standard, the PHY layer must implement support for at l
 between the channels 0, 3 and 9. Within each there is support for at least 2 complex channels
 that have unique lenght 31 preamble codes. So the device must support the lenght 31 codes for
 each channel it implements.\\
+More specifically, the standard defines 16 frequency bands, each with 2 complex channels,
+if a band is choosen, the device must support both channels.\\
 
 To increment ranging accuracy, reduced on-air time and power consumption, the standard
 also provides optional modes for example scrambled timestamp sequence (STS), these devices
@@ -1109,7 +1111,7 @@ of the physical frame).\\
 \subsubsection{Convolutional encoding}
 As stated previously, the encoder can have k of both 3 and 7 depending if HPRF is in use,
 if in use k=7 can be optionally employed over k=3. If k=7 is used, Reed-Solomon encoding
-is disabled on the PSDU, moreover the conv. encoder is run over the whole PHR (in halved datarate) 
+is disabled on the PSDU, moreover the conv. encoder is run over the whole PHR (in halved rate) 
 and PSDU. Datarate is higher using conv. encoder over Reed-Solomon encoding in HPRF devices, in
 both  124.8 MHz PRF and 249.6 MHz PRF.\\ 
 Convolutional encoding is not supported in noncoherent reciver so the only performance
