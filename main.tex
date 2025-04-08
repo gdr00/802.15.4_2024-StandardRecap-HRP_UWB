@@ -481,7 +481,8 @@ whilst the management service is responsible for the interfacing with the MAC su
 management entity service access point (MLME-SAP fig.\ref{fig:layers}).
 In particular the MAC overlay provides the possibility to manage beacons, channel access,
 association and disassociation, acknowledged frame delivery, guaranteed time slots management
-and frame validation. In addition can provide security features (TODO: UWB?).
+and frame validation. In addition can provide security features like managing STS parameters 
+in UWB.
 
 \subsection{Functional overview}
 \subsubsection{Scheduled access}
@@ -547,7 +548,7 @@ The transfer models of the standard\cite{10794632} are:
 \begin{itemize}
     \item Transfer to a Coordinator from a device.
     \item Indirect transfer from a coordinator in which the device recives the data.
-    \item Transfer between two peer devices. (TODO: UWB?)
+    \item Transfer between two peer devices.
 \end{itemize}
 
 On a correctly recived frame, if requested, the receiver sends an acknowledgment frame that 
