@@ -567,8 +567,8 @@ If \emph{not enabled} it transmits directly to the coordinator.\\
 
 \textbf{Indirect data transfer} using the superframe structure, the coordinator that has data for
 a device, indicates in the beacon that a data message is pending. Since devices are
-synchronized through the beacon, they can listen for pending messages, if present, they
-send a Data Request command to the coordinator, that in turn sends the data frame and when
+synchronized through the beacon, they can listen for pending messages, if present, the device
+sends a Data Request command to the coordinator, that in turn sends the data frame and when
 succesfuly completed, removes the message from the pending list in the beacon.\\
 If not using the superframe structure, and a Data Frame is pending, the coordinator stores 
 the data and sends it to the device up on request by the latter. Else the coordinator that 
