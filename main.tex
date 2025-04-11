@@ -1025,8 +1025,8 @@ Encoded as follows:
   \label{fig:PHY-payload}
 \end{figure}
 
-Where the first part is the Reed-Solomon encoded PSDU with 48 parity bits. The second part is
-encoded through a convolutional encoder, where parity bits are calculated using a sliding 
+The first step is the Reed-Solomon encoding of the PSDU with 48 parity bits. The second part 
+is encoded through a convolutional encoder, where parity bits are calculated using a sliding 
 window on the datastream (in some cases is bypassed). Then the data is modulated according to
 HPRF or BPRF, if the latter, BPM-BPSK is used.
 
