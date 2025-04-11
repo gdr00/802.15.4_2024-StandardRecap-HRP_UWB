@@ -848,8 +848,8 @@ There are different steps in the PPDU encoding, precisely:
 \subsection{Symbol Structure}
 Using BPM-BPSK, the symbol structure is composed of 2 bits per symbol, with the first bit
 determining the position (0 or 1) and the second the phase (-1 or +1). In each data symbol
-interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip per 
-burst, each of $N_{c}$ possible values of duration $T_{c}$. Furthermore, $T_{bpm}=T_{dsym}/2$, 
+interval $T_{dsym}$ is transmitted a single burst, composed of $N_{cpb}$ contiguos chip of duration $T_{c}$ per 
+burst, each of $N_{c}$ possible positions. Furthermore, $T_{bpm}=T_{dsym}/2$, 
 so enables binary position modulation and $T_{dsym}=N_{c} \times T_{c}$.\\
 To mitigate multipath interference between symbols, the standard\cite{10794632} limits the burst transmission 
 to the first half of each $T_{bpm}$, so the first $N_{hop}=N_{burst}/4$ where 
